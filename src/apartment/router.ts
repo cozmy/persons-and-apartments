@@ -37,22 +37,45 @@ apartmentsRouter
     const apartment: IApartment = database.get('apartments').find({id}).value();
 
     if (apartment && apartment.id === id) {
-      const {cost, owner} = req.body;
+      const {cost, ownerId} = req.body;
 
       if (typeof cost === 'number') {
         apartment.cost = cost;
       }
 
-      if (typeof owner === 'string' && owner.length > 0) {
-        // TODO Check to see if the owner is a valid person
-        apartment.owner = owner;
-      } else if (owner === null) {
-        apartment.owner = owner;
+      // TODO this is not OK at all, but for the pure sake of speed, I'll write it anyway!
+      // 4 levels of IFs, wow! such simple, much clean code!
+      if (typeof ownerId === 'string' && ownerId.length > 0) {
+        if (apartment.ownerId === null) {
+          const owner = database.get('persons').find({id: ownerId}).value();
+
+          if (owner && owner.id === ownerId) {
+            if (owner.money >= apartment.cost) {
+              database.get('persons').find({id: ownerId}).assign({
+                money: owner.money - apartment.cost
+              }).write();
+
+              apartment.ownerId = ownerId;
+
+              database.get('apartments').find({id}).assign(apartment).write();
+
+              res.json(apartment);
+            } else {
+              res.status(403).send('403 Forbidden - The requested "Person" to be made an "Apartment" owner does not have enough money.');
+            }
+          } else {
+            res.status(404).send('404 Not Found - The requested "Person" to be made an "Apartment" owner was not found.');
+          }
+        } else {
+          res.status(403).send('403 Forbidden - The "Apartment" already has an owner.');
+        }
+      } else if (ownerId === null) {
+        apartment.ownerId = ownerId;
+
+        database.get('apartments').find({id}).assign(apartment).write();
+
+        res.json(apartment);
       }
-
-      database.get('apartments').find({id}).assign(apartment).write();
-
-      res.json(apartment);
     } else {
       res.status(404).send('404 Not Found - The requested "Apartment" was not found.');
     }
@@ -73,7 +96,7 @@ apartmentsRouter
       (typeof cost === 'number')
     ) {
       const id = uniqid(apartmentIdPrefix);
-      const apartment: IApartment = {cost, id, owner: null};
+      const apartment: IApartment = {cost, id, ownerId: null};
 
       const {database} = res.locals;
       database.get('apartments').push(apartment).write();

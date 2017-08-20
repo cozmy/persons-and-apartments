@@ -15,6 +15,10 @@ personsRouter
     if (person && person.id === id) {
       database.get('persons').remove({id}).write();
 
+      // TODO this is not OK as it breaks the abstraction principle, but for the pure sake of speed, I'll write it here!
+      // Free up the apartment if the owner no longer exists
+      database.get('apartments').filter({ownerId: person.id}).each(apartment => apartment.ownerId = null).write();
+
       res.json(person);
     } else {
       res.status(404).send('404 Not Found - The requested "Person" was not found.');
