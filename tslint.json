@@ -2,6 +2,9 @@
   "extends": "tslint:recommended",
   "rules": {
     "arrow-parens": false,
+    "max-line-length": [
+      false
+    ],
     "no-var-requires": false,
     "no-string-literal": false,
     "quotemark": [
