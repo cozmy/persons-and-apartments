@@ -2,7 +2,7 @@ import {Handler} from 'express';
 
 const low = require('lowdb');
 const inProduction = process.env.NODE_ENV === 'production';
-const getDatabaseName = (databaseSuffix) => `.${(inProduction ? '' : '/dist')}/db-${databaseSuffix}.json`;
+const getDatabaseName = (databaseSuffix) => `.${(inProduction ? '/dbs' : '/dist')}/db-${databaseSuffix}.json`;
 
 export const databaseHandler: Handler = (req, res, next) => {
   const database = low(getDatabaseName(res.locals.authorizationToken));
