@@ -1,0 +1,11 @@
+.idea/*.iws
+.idea/tasks.xml
+.idea/workspace.xml
+
+.dist-cache
+.sass-cache
+.tmp
+
+dist
+node_modules
+npm-debug.log

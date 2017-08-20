@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "ES7"
+    ],
+    "module": "commonjs",
+    "target": "es2017"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}

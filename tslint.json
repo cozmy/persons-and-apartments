@@ -1,0 +1,18 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "no-var-requires": false,
+    "no-string-literal": false,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "singleline": "never",
+        "multiline": "never"
+      }
+    ]
+  }
+}
