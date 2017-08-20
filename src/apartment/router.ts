@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import * as uniqid from 'uniqid';
+import {IApartment} from './interface';
 
 const apartmentIdPrefix = 'apartment-';
 const apartmentsRouter: Router = Router();
@@ -9,7 +10,7 @@ apartmentsRouter
   .delete((req, res) => {
     const {database} = res.locals;
     const {id} = req.params;
-    const apartment = database.get('apartments').find({id}).value();
+    const apartment: IApartment = database.get('apartments').find({id}).value();
 
     if (apartment && apartment.id === id) {
       database.get('apartments').remove({id}).write();
@@ -22,7 +23,7 @@ apartmentsRouter
   .get((req, res) => {
     const {database} = res.locals;
     const {id} = req.params;
-    const apartment = database.get('apartments').find({id}).value();
+    const apartment: IApartment = database.get('apartments').find({id}).value();
 
     if (apartment && apartment.id === id) {
       res.json(apartment);
@@ -33,17 +34,20 @@ apartmentsRouter
   .put((req, res) => {
     const {database} = res.locals;
     const {id} = req.params;
-    const apartment = database.get('apartments').find({id}).value();
+    const apartment: IApartment = database.get('apartments').find({id}).value();
 
     if (apartment && apartment.id === id) {
-      const {cost, owners} = req.body;
+      const {cost, owner} = req.body;
 
       if (typeof cost === 'number') {
         apartment.cost = cost;
       }
 
-      if (Array.isArray(owners)) {
-        apartment.owners = owners;
+      if (typeof owner === 'string' && owner.length > 0) {
+        // TODO Check to see if the owner is a valid person
+        apartment.owner = owner;
+      } else if (owner === null) {
+        apartment.owner = owner;
       }
 
       database.get('apartments').find({id}).assign(apartment).write();
@@ -69,7 +73,7 @@ apartmentsRouter
       (typeof cost === 'number')
     ) {
       const id = uniqid(apartmentIdPrefix);
-      const apartment = {cost, id, owners: []};
+      const apartment: IApartment = {cost, id, owner: null};
 
       const {database} = res.locals;
       database.get('apartments').push(apartment).write();
