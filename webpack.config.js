@@ -1,6 +1,8 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
+const inProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
   context: path.join(__dirname, 'src'),
   entry: {
@@ -14,9 +16,10 @@ module.exports = {
       test: /\.ts$/
     }]
   },
+  node: false,
   output: {
     filename: '[name].js',
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, inProduction ? 'docker/node' : 'dist')
   },
   resolve: {
     extensions: ['.ts', '.js']

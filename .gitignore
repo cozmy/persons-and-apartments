@@ -8,4 +8,8 @@
 
 dist
 node_modules
+
+docker/node/*.js
+docker/node/*.json
+
 npm-debug.log
