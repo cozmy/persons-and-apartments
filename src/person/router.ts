@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import * as uniqid from 'uniqid';
+import {IPerson} from './interface';
 
 const personIdPrefix = 'person-';
 const personsRouter: Router = Router();
@@ -9,7 +10,7 @@ personsRouter
   .delete((req, res) => {
     const {database} = res.locals;
     const {id} = req.params;
-    const person = database.get('persons').find({id}).value();
+    const person: IPerson = database.get('persons').find({id}).value();
 
     if (person && person.id === id) {
       database.get('persons').remove({id}).write();
@@ -22,7 +23,7 @@ personsRouter
   .get((req, res) => {
     const {database} = res.locals;
     const {id} = req.params;
-    const person = database.get('persons').find({id}).value();
+    const person: IPerson = database.get('persons').find({id}).value();
 
     if (person && person.id === id) {
       res.json(person);
@@ -33,7 +34,7 @@ personsRouter
   .put((req, res) => {
     const {database} = res.locals;
     const {id} = req.params;
-    const person = database.get('persons').find({id}).value();
+    const person: IPerson = database.get('persons').find({id}).value();
 
     if (person && person.id === id) {
       const {firstName, lastName, money} = req.body;
@@ -62,7 +63,7 @@ personsRouter
   .route('/persons/')
   .get((req, res) => {
     const {database} = res.locals;
-    const persons = database.get('persons');
+    const persons: IPerson[] = database.get('persons');
 
     res.json(persons);
   })
@@ -75,7 +76,7 @@ personsRouter
       (typeof money === 'number')
     ) {
       const id = uniqid(personIdPrefix);
-      const person = {firstName, id, lastName, money};
+      const person: IPerson = {firstName, id, lastName, money};
 
       const {database} = res.locals;
       database.get('persons').push(person).write();
