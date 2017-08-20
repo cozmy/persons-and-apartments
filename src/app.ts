@@ -6,6 +6,8 @@ import {authorizationHandler} from './authorization';
 import {databaseHandler} from './database';
 import {personsRouter} from './person/router';
 
+// TODO both "apartment" and "person", as CRUD resoruces, share a lot of common code. Right now, it's copy-pasted!
+
 // Build and configure the express app
 const app = express();
 app.use(bodyParser.json());
