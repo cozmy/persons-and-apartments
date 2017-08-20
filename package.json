@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build": "webpack",
-    "dev": "concurrently --kill-others \"webpack --watch\" \"nodemon ./dist/index.js\""
+    "dev": "concurrently --kill-others \"webpack --watch\" \"nodemon ./dist/app.js\""
   },
   "dependencies": {
     "body-parser": "^1.17.2",

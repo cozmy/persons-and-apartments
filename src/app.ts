@@ -3,7 +3,7 @@ import * as cors from 'cors';
 import * as express from 'express';
 import {authorizationHandler} from './authorization';
 import {databaseHandler} from './database';
-import {personsRouter} from './person/index';
+import {personsRouter} from './person/router';
 
 // Build and configure the express app
 const app = express();
