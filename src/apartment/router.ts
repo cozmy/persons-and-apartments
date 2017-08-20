@@ -78,7 +78,7 @@ apartmentsRouter
       const {database} = res.locals;
       database.get('apartments').push(apartment).write();
 
-      res.json(apartment);
+      res.status(201).json(apartment);
     } else {
       res.status(400).send('400 Bad Request - Trying to create an "Apartment" with an incomplete payload.');
     }

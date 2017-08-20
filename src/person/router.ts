@@ -81,7 +81,7 @@ personsRouter
       const {database} = res.locals;
       database.get('persons').push(person).write();
 
-      res.json(person);
+      res.status(201).json(person);
     } else {
       res.status(400).send('400 Bad Request - Trying to create a "Person" with an incomplete payload.');
     }
