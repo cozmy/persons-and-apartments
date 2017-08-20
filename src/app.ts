@@ -28,6 +28,9 @@ app.use((err, req, res, next) => {
     stack: err.stack
   });
 });
+app.all('*', (req, res) => {
+  res.status(400).send('400 Bad Request - Invalid URL');
+});
 
 // Start the app at port 3000
 app.listen(3000);
