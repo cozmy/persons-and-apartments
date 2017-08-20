@@ -8,6 +8,7 @@ const whenPersonCreated = fetch('http://localhost:3000/api/persons', {
     money: 3000
   }),
   headers: {
+    Authorization: 'authorization-token',
     'Content-Type': 'application/json'
   },
   method: 'POST'
