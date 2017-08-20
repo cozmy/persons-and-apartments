@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
+import {apartmentsRouter} from './apartment/router';
 import {authorizationHandler} from './authorization';
 import {databaseHandler} from './database';
 import {personsRouter} from './person/router';
@@ -13,6 +14,7 @@ app.use(authorizationHandler);
 app.use(databaseHandler);
 
 // Attach the routers
+app.use('/api', apartmentsRouter);
 app.use('/api', personsRouter);
 
 // Generic error handler
