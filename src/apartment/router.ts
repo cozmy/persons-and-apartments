@@ -37,11 +37,7 @@ apartmentsRouter
     const apartment: IApartment = database.get('apartments').find({id}).value();
 
     if (apartment && apartment.id === id) {
-      const {cost, ownerId} = req.body;
-
-      if (typeof cost === 'number') {
-        apartment.cost = cost;
-      }
+      const {ownerId} = req.body;
 
       // TODO this is not OK at all, but for the pure sake of speed, I'll write it anyway!
       // 4 levels of IFs, wow! such simple, much clean code!
